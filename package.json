@@ -1,0 +1,34 @@
+{
+  "name": "2048-ts",
+  "version": "1.0.0",
+  "description": "Simple game 2048",
+  "main": "index.js",
+  "keywords": [
+    "ts",
+    "js",
+    "game",
+    "2048"
+  ],
+  "author": "kam4atka",
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack serve --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
+  },
+  "devDependencies": {
+    "css-loader": "6.8.1",
+    "html-loader": "4.2.0",
+    "html-webpack-plugin": "5.5.3",
+    "mini-css-extract-plugin": "2.7.6",
+    "style-loader": "3.3.3",
+    "ts-loader": "9.4.3",
+    "webpack": "5.86.0",
+    "webpack-cli": "5.1.4",
+    "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "5.9.0"
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11"
+  ]
+}

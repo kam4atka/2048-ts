@@ -1,0 +1,16 @@
+extends:
+  - 'htmlacademy/vanilla'
+  - 'plugin:@typescript-eslint/recommended'
+  - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
+
+env:
+  es2022: true
+  browser: true
+
+overrides:
+  - files:
+      - "*.ts"
+      - "*.tsx"
+    parserOptions:
+      project:
+        - ./tsconfig.json

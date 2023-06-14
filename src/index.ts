@@ -1,5 +1,7 @@
-import "./assets/css/normalize.css";
-import "./assets/css/style.css";
+import './assets/css/normalize.css';
+import './assets/css/style.css';
 
-const test: string = 'Hao! ^__^';
+const test = 'Hao! ^__^';
+
+// eslint-disable-next-line
 console.log(test);

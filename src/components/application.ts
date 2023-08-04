@@ -11,9 +11,8 @@ export default class Application {
   init() {
     const board = new Board({
       cols: BOARD_SIZE,
-      rows: BOARD_SIZE,
-      rootEl: this.rootEl
-    });
+      rows: BOARD_SIZE
+    }, this.rootEl);
 
     board.init();
   }

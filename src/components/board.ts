@@ -4,6 +4,7 @@ import Cell from './cell';
 import Tile from './tile';
 import { createElement } from '../utils/create-element';
 import { render } from '../utils/render';
+import { getRandomValue } from '../utils/get-random-value';
 
 type BoardType = {
   cols: number,
@@ -61,7 +62,11 @@ export default class Board implements ComponentInterface {
   }
 
   renderTile(board: Element) {
+    const randomCell = this.getEmptyCell();
+    const {x, y} = randomCell.getCoords();
+
     const tileComponent = new Tile();
+    tileComponent.setPosition(x, y);
     const tileEl = tileComponent.get();
 
     if (!tileEl) {
@@ -69,5 +74,12 @@ export default class Board implements ComponentInterface {
     }
 
     render(tileEl, board);
+  }
+
+  getEmptyCell() {
+    const emptyCells = this.cellModel
+      .getCollection()
+      .filter((cell) => cell.isEmpty());
+    return getRandomValue(emptyCells);
   }
 }

@@ -2,9 +2,14 @@ import { ComponentInterface } from '../interface/component.interface';
 import { createElement } from '../utils/create-element';
 
 export default class Tile implements ComponentInterface {
-  private componentElement!: Element | null;
+  private value!: number;
+  private componentElement!: HTMLDivElement | null;
+
+  private x!: number;
+  private y!: number;
 
   constructor() {
+    this.value = Math.random() > 0.5 ? 2 : 4;
     this.componentElement = this.getElement();
   }
 
@@ -13,10 +18,26 @@ export default class Tile implements ComponentInterface {
   }
 
   getTemplate() {
-    return '<div class="tile"></div>';
+    return `<div class="tile">${this.value}</div>`;
   }
 
   getElement() {
     return createElement(this.getTemplate());
+  }
+
+  setValue(tileValue: number) {
+    this.value = tileValue;
+  }
+
+  setPosition(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+
+    if (!this.componentElement) {
+      throw new Error('Failed to get tile DOM element');
+    }
+
+    this.componentElement.style.setProperty('--x', String(x));
+    this.componentElement.style.setProperty('--y', String(y));
   }
 }

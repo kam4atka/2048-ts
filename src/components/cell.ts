@@ -4,8 +4,14 @@ import { createElement } from '../utils/create-element';
 export default class Cell implements ComponentInterface {
   private componentElement!: Element | null;
 
-  constructor() {
+  private x = 0;
+  private y = 0;
+
+  constructor(x: number, y: number) {
     this.componentElement = this.getElement();
+
+    this.x = x;
+    this.y = y;
   }
 
   get () {
@@ -18,5 +24,9 @@ export default class Cell implements ComponentInterface {
 
   getElement() {
     return createElement(this.getTemplate());
+  }
+
+  getCoordsByString() {
+    return `${this.x}${this.y}`;
   }
 }

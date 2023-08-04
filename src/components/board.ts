@@ -1,4 +1,5 @@
 import { ComponentInterface } from '../interface/component.interface';
+import CellModel from '../model/cell-model';
 import Cell from './cell';
 import Tile from './tile';
 import { createElement } from '../utils/create-element';
@@ -15,7 +16,7 @@ export default class Board implements ComponentInterface {
 
   private boardEl!: Element | null;
 
-  constructor({cols, rows}: BoardType, private rootEl: Element | null) {
+  constructor({cols, rows}: BoardType, private rootEl: Element | null, private cellModel: CellModel) {
     this.cols = cols;
     this.rows = rows;
 
@@ -39,16 +40,18 @@ export default class Board implements ComponentInterface {
 
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
-        this.renderCell(this.boardEl);
+        this.renderCell(this.boardEl, i, j);
       }
     }
 
     this.renderTile(this.boardEl);
   }
 
-  renderCell(board: Element) {
-    const cellComponent = new Cell();
+  renderCell(board: Element, x: number, y: number) {
+    const cellComponent = new Cell(x, y);
     const cellEl = cellComponent.get();
+
+    this.cellModel.set(cellComponent);
 
     if (!cellEl) {
       throw new Error('Failed to get cell DOM element');

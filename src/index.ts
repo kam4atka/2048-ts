@@ -1,7 +1,10 @@
 import './assets/css/normalize.css';
 import './assets/css/style.css';
+import Application from './components/application';
 
-const test = 'Hao! ^__^';
+function bootstrap() {
+  const application = new Application();
+  application.init();
+}
 
-// eslint-disable-next-line
-console.log(test);
+bootstrap();

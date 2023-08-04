@@ -6,10 +6,7 @@
     "strict": true,
     "skipLibCheck": true,
     "lib": [
-      "ESNext"
-    ],
-    "types": [
-      "node"
+      "DOM"
     ],
     "esModuleInterop": true,
     "allowJs": true,

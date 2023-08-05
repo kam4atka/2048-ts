@@ -1,4 +1,4 @@
-import Board from './board';
+import BoardPresenter from '../presenter/board-presenter';
 import CellModel from '../model/cell-model';
 import { BOARD_SIZE } from '../const';
 
@@ -12,7 +12,7 @@ export default class Application {
   }
 
   init() {
-    const board = new Board(
+    const boardPresenter = new BoardPresenter(
       {
         cols: BOARD_SIZE,
         rows: BOARD_SIZE
@@ -21,6 +21,6 @@ export default class Application {
       this.cellModel
     );
 
-    board.init();
+    boardPresenter.init();
   }
 }

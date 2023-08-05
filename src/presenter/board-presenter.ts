@@ -54,11 +54,11 @@ export default class BordPresenter {
   }
 
   renderTile(board: Element) {
-    const randomCell = this.getEmptyCell();
-    const {x, y} = randomCell.getCoords();
+    const {x, y} = this.getEmptyCell().getCoords();
 
     const tileComponent = new Tile();
     tileComponent.setPosition(x, y);
+    tileComponent.setColor();
     const tileEl = tileComponent.get();
 
     if (!tileEl) {

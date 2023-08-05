@@ -29,6 +29,17 @@ export default class Tile implements ComponentInterface {
     this.value = tileValue;
   }
 
+  setColor() {
+    const bgLightness = 100 - Math.log2(this.value) * 9;
+
+    if (!this.componentElement) {
+      throw new Error('Failed to get tile DOM element');
+    }
+
+    this.componentElement.style.setProperty('--bg-lightness', `${bgLightness}%`);
+    this.componentElement.style.setProperty('--text-lightness', `${bgLightness < 50 ? 90 : 10}%`);
+  }
+
   setPosition(x: number, y: number) {
     this.x = x;
     this.y = y;
@@ -37,7 +48,7 @@ export default class Tile implements ComponentInterface {
       throw new Error('Failed to get tile DOM element');
     }
 
-    this.componentElement.style.setProperty('--x', String(x));
-    this.componentElement.style.setProperty('--y', String(y));
+    this.componentElement.style.setProperty('--x', String(this.x));
+    this.componentElement.style.setProperty('--y', String(this.y));
   }
 }

@@ -3,24 +3,16 @@ import CellModel from '../model/cell-model';
 import { BOARD_SIZE } from '../const';
 
 export default class Application {
-  private rootEl!: Element | null;
+  private rootEl!: HTMLElement | null;
   private cellModel!: CellModel;
 
   constructor() {
     this.rootEl = document.querySelector('#root');
-    this.cellModel = new CellModel();
+    this.cellModel = new CellModel(BOARD_SIZE);
   }
 
   init() {
-    const boardPresenter = new BoardPresenter(
-      {
-        cols: BOARD_SIZE,
-        rows: BOARD_SIZE
-      },
-      this.rootEl,
-      this.cellModel
-    );
-
+    const boardPresenter = new BoardPresenter(this.cellModel, this.rootEl);
     boardPresenter.init();
   }
 }

@@ -6,8 +6,8 @@ enum RenderPosition {
 }
 
 export function render(
-  component: Element,
-  container: Element,
+  component: HTMLElement,
+  container: HTMLElement,
   place?: InsertPosition
 ) {
   if (container === null) {

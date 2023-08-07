@@ -5,55 +5,40 @@ import Tile from '../components/tile';
 import { getRandomValue } from '../utils/get-random-value';
 import { render } from '../utils/render';
 
-
-type BoardType = {
-  cols: number,
-  rows: number
-}
-
 export default class BordPresenter {
-  private cols!: number;
-  private rows!: number;
+  private rootEl!: HTMLElement;
+  private boardEl!: HTMLElement;
 
-  private boardEl!: Element | null;
+  private cells: Cell[] = [];
 
-  constructor({cols, rows}: BoardType, private rootEl: Element | null, private cellModel: CellModel) {
-    this.cols = cols;
-    this.rows = rows;
+  constructor(private cellModel: CellModel, rootEl: HTMLElement | null) {
+    if (!rootEl) {
+      throw new Error('Failed to get root DOM element');
+    }
+
+    this.rootEl = rootEl;
 
     this.boardEl = new Board().getElement();
+    this.cells = this.cellModel.getCollection();
   }
 
   init() {
-    if (!this.rootEl || !this.boardEl) {
-      throw new Error('Failed to get root or board DOM element');
-    }
+    this.renderBoard();
+  }
 
+  renderBoard() {
     render(this.boardEl, this.rootEl);
 
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.cols; j++) {
-        this.renderCell(this.boardEl, i, j);
-      }
-    }
-
-    this.renderTile(this.boardEl);
+    this.cells.forEach((cell) => this.renderCell(cell));
+    this.renderTile();
   }
 
-  renderCell(board: Element, x: number, y: number) {
-    const cellComponent = new Cell(x, y);
-    const cellEl = cellComponent.get();
-
-    this.cellModel.set(cellComponent);
-
-    if (!cellEl) {
-      throw new Error('Failed to get cell DOM element');
-    }
-
-    render(cellEl, board);
+  renderCell(cell: Cell) {
+    const cellElement = cell.get();
+    render(cellElement, this.boardEl);
   }
 
-  renderTile(board: Element) {
+  renderTile() {
     const {x, y} = this.getEmptyCell().getCoords();
 
     const tileComponent = new Tile();
@@ -61,17 +46,11 @@ export default class BordPresenter {
     tileComponent.setColor();
     const tileEl = tileComponent.get();
 
-    if (!tileEl) {
-      throw new Error('Failed to get tile DOM element');
-    }
-
-    render(tileEl, board);
+    render(tileEl, this.boardEl);
   }
 
   getEmptyCell() {
-    const emptyCells = this.cellModel
-      .getCollection()
-      .filter((cell) => cell.isEmpty());
+    const emptyCells = this.cells.filter((cell) => cell.isEmpty());
     return getRandomValue(emptyCells);
   }
 }

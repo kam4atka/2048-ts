@@ -3,7 +3,7 @@ import Tile from './tile';
 import { createElement } from '../utils/create-element';
 
 export default class Cell implements ComponentInterface {
-  private componentElement!: Element | null;
+  private componentElement!: HTMLElement;
 
   private x = 0;
   private y = 0;

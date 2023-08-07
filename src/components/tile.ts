@@ -3,7 +3,7 @@ import { createElement } from '../utils/create-element';
 
 export default class Tile implements ComponentInterface {
   private value!: number;
-  private componentElement!: HTMLDivElement | null;
+  private componentElement!: HTMLElement;
 
   private x!: number;
   private y!: number;
@@ -32,10 +32,6 @@ export default class Tile implements ComponentInterface {
   setColor() {
     const bgLightness = 100 - Math.log2(this.value) * 9;
 
-    if (!this.componentElement) {
-      throw new Error('Failed to get tile DOM element');
-    }
-
     this.componentElement.style.setProperty('--bg-lightness', `${bgLightness}%`);
     this.componentElement.style.setProperty('--text-lightness', `${bgLightness < 50 ? 90 : 10}%`);
   }
@@ -43,10 +39,6 @@ export default class Tile implements ComponentInterface {
   setPosition(x: number, y: number) {
     this.x = x;
     this.y = y;
-
-    if (!this.componentElement) {
-      throw new Error('Failed to get tile DOM element');
-    }
 
     this.componentElement.style.setProperty('--x', String(this.x));
     this.componentElement.style.setProperty('--y', String(this.y));

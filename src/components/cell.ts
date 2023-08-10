@@ -8,7 +8,8 @@ export default class Cell implements ComponentInterface {
   private x = 0;
   private y = 0;
 
-  private tile!: Tile;
+  private tile: Tile | null = null;
+  private tileForMerge: Tile | null = null;
 
   constructor(x: number, y: number) {
     this.componentElement = this.getElement();
@@ -37,11 +38,49 @@ export default class Cell implements ComponentInterface {
     return `${this.x}${this.y}`;
   }
 
+  getTile() {
+    return this.tile;
+  }
+
+  mergeTiles() {
+    if (!this.tile || !this.tileForMerge) {
+      return;
+    }
+
+    const newValue = this.tile?.getValue() + this.tileForMerge.getValue();
+    this.tile.setValue(newValue);
+    this.tileForMerge.remove();
+    this.unlinkTileForMerge();
+  }
+
   linkTile(tile: Tile) {
+    tile.setPosition(this.x, this.y);
     this.tile = tile;
+  }
+
+  linkTileForMerge(tile: Tile) {
+    tile.setPosition(this.x, this.y);
+    this.tileForMerge = tile;
+  }
+
+  unlinkTile() {
+    this.tile = null;
+  }
+
+  unlinkTileForMerge() {
+    this.tileForMerge = null;
   }
 
   isEmpty() {
     return (!this.tile);
+  }
+
+  hasTileForMerge() {
+    return !!this.tileForMerge;
+  }
+
+  canAccept(newTile: Tile) {
+    return this.isEmpty() ||
+      (!this.hasTileForMerge() && this.tile?.getValue() === newTile.getValue());
   }
 }

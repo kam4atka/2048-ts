@@ -1,6 +1,7 @@
 import { Keys } from '../const';
 
 export default class ControllService {
+  private handlers: {[key: string]: () => void} = {};
 
   constructor() {
     this.bindHandlers();
@@ -16,12 +17,17 @@ export default class ControllService {
     document.addEventListener('keydown', this.keyDownHandler, {once: true});
   }
 
+  setHandler(action: Keys, cb: () => void) {
+    this.handlers = {
+      ...this.handlers,
+      [action]: cb
+    };
+  }
 
   keyDownHandler(event: KeyboardEvent) {
     switch (event.key) {
       case Keys.Up:
-        // eslint-disable-next-line
-        console.log(Keys.Down);
+        this.handlers[Keys.Up]();
         this.setupKeydownOnce();
         break;
       case Keys.Down:

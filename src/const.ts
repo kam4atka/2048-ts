@@ -5,5 +5,10 @@ export enum Keys {
   Right = 'ArrowRight'
 }
 
+export enum Direction {
+  Up = 'Up',
+  Down = 'Down'
+}
+
 export const BOARD_SIZE = 4;
 

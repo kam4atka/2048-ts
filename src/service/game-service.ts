@@ -1,19 +1,40 @@
 import Cell from '../components/cell';
+import { Direction } from '../const';
 
 export default class GameService {
   groupCellsByColumn(cells: Cell[]) {
     return cells.reduce((groupedCells: Cell[][], cell: Cell) => {
-      const {x, y} = cell.getCoords();
+      const {x} = cell.getCoords();
 
       groupedCells[x] = groupedCells[x] || [];
-      groupedCells[x][y] = cell;
+      groupedCells[x].push(cell);
 
       return groupedCells;
     }, []);
   }
 
-  slideTiles(cells: Cell[]) {
-    const groupedCells = this.groupCellsByColumn(cells);
+  groupCellsByColumnReverse(cells: Cell[]) {
+    return cells.reduce((groupedCells: Cell[][], cell: Cell) => {
+      const {x} = cell.getCoords();
+
+      groupedCells[x] = groupedCells[x] || [];
+      groupedCells[x].unshift(cell);
+
+      return groupedCells;
+    }, []);
+  }
+
+  slideTiles(direction: Direction, cells: Cell[]) {
+    let groupedCells: Cell[][];
+
+    switch (direction) {
+      case Direction.Up:
+        groupedCells = this.groupCellsByColumn(cells);
+        break;
+      case Direction.Down:
+        groupedCells = this.groupCellsByColumnReverse(cells);
+        break;
+    }
 
     groupedCells.forEach((groupCells) => this.slideTilesInGroup(groupCells));
   }

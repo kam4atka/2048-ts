@@ -31,8 +31,7 @@ export default class ControllService {
         this.setupKeydownOnce();
         break;
       case Keys.Down:
-        // eslint-disable-next-line
-        console.log(Keys.Down);
+        this.handlers[Keys.Down]();
         this.setupKeydownOnce();
         break;
       case Keys.Left:

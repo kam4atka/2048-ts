@@ -6,7 +6,7 @@ import Cell from '../components/cell';
 import Tile from '../components/tile';
 import { getRandomValue } from '../utils/get-random-value';
 import { render } from '../utils/render';
-import { Keys } from '../const';
+import { Direction, Keys } from '../const';
 
 export default class BordPresenter {
   private rootEl!: HTMLElement;
@@ -38,11 +38,14 @@ export default class BordPresenter {
 
   bindLocalHandlers() {
     this.moveUpHandler = this.moveUpHandler.bind(this);
+    this.moveDownHandler = this.moveDownHandler.bind(this);
   }
 
   setOuterHandlers() {
     // eslint-disable-next-line
     this.controllService.setHandler(Keys.Up, this.moveUpHandler);
+    // eslint-disable-next-line
+    this.controllService.setHandler(Keys.Down, this.moveDownHandler);
   }
 
   renderBoard() {
@@ -78,6 +81,10 @@ export default class BordPresenter {
   }
 
   moveUpHandler() {
-    this.gameService.slideTiles(this.cells);
+    this.gameService.slideTiles(Direction.Up, this.cells);
+  }
+
+  moveDownHandler() {
+    this.gameService.slideTiles(Direction.Down, this.cells);
   }
 }

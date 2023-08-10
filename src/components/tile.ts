@@ -27,6 +27,11 @@ export default class Tile implements ComponentInterface {
 
   setValue(tileValue: number) {
     this.value = tileValue;
+    this.componentElement.textContent = String(this.value);
+  }
+
+  getValue() {
+    return this.value;
   }
 
   setColor() {
@@ -42,5 +47,9 @@ export default class Tile implements ComponentInterface {
 
     this.componentElement.style.setProperty('--x', String(this.x));
     this.componentElement.style.setProperty('--y', String(this.y));
+  }
+
+  remove() {
+    this.componentElement.remove();
   }
 }

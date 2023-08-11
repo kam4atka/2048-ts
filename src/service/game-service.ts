@@ -24,8 +24,30 @@ export default class GameService {
     }, []);
   }
 
+  groupCellsByRow(cells: Cell[]) {
+    return cells.reduce((groupedCells: Cell[][], cell: Cell) => {
+      const {y} = cell.getCoords();
+
+      groupedCells[y] = groupedCells[y] || [];
+      groupedCells[y].push(cell);
+
+      return groupedCells;
+    }, []);
+  }
+
+  groupCellsByRowReverse(cells: Cell[]) {
+    return cells.reduce((groupedCells: Cell[][], cell: Cell) => {
+      const {y} = cell.getCoords();
+
+      groupedCells[y] = groupedCells[y] || [];
+      groupedCells[y].unshift(cell);
+
+      return groupedCells;
+    }, []);
+  }
+
   slideTiles(direction: Direction, cells: Cell[]) {
-    let groupedCells: Cell[][];
+    let groupedCells: Cell[][] = [];
 
     switch (direction) {
       case Direction.Up:
@@ -33,6 +55,12 @@ export default class GameService {
         break;
       case Direction.Down:
         groupedCells = this.groupCellsByColumnReverse(cells);
+        break;
+      case Direction.Left:
+        groupedCells = this.groupCellsByRow(cells);
+        break;
+      case Direction.Right:
+        groupedCells = this.groupCellsByRowReverse(cells);
         break;
     }
 

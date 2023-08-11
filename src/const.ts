@@ -7,7 +7,9 @@ export enum Keys {
 
 export enum Direction {
   Up = 'Up',
-  Down = 'Down'
+  Down = 'Down',
+  Left = 'Left',
+  Right = 'Right'
 }
 
 export const BOARD_SIZE = 4;

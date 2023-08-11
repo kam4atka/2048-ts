@@ -35,13 +35,11 @@ export default class ControllService {
         this.setupKeydownOnce();
         break;
       case Keys.Left:
-        // eslint-disable-next-line
-        console.log(Keys.Left);
+        this.handlers[Keys.Left]();
         this.setupKeydownOnce();
         break;
       case Keys.Right:
-        // eslint-disable-next-line
-        console.log(Keys.Right);
+        this.handlers[Keys.Right]();
         this.setupKeydownOnce();
         break;
       default:

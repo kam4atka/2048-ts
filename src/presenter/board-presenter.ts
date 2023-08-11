@@ -39,6 +39,8 @@ export default class BordPresenter {
   bindLocalHandlers() {
     this.moveUpHandler = this.moveUpHandler.bind(this);
     this.moveDownHandler = this.moveDownHandler.bind(this);
+    this.moveLeftHandler = this.moveLeftHandler.bind(this);
+    this.moveRightHandler = this.moveRightHandler.bind(this);
   }
 
   setOuterHandlers() {
@@ -46,6 +48,10 @@ export default class BordPresenter {
     this.controllService.setHandler(Keys.Up, this.moveUpHandler);
     // eslint-disable-next-line
     this.controllService.setHandler(Keys.Down, this.moveDownHandler);
+    // eslint-disable-next-line
+    this.controllService.setHandler(Keys.Left, this.moveLeftHandler);
+    // eslint-disable-next-line
+    this.controllService.setHandler(Keys.Right, this.moveRightHandler);
   }
 
   renderBoard() {
@@ -86,5 +92,13 @@ export default class BordPresenter {
 
   moveDownHandler() {
     this.gameService.slideTiles(Direction.Down, this.cells);
+  }
+
+  moveLeftHandler() {
+    this.gameService.slideTiles(Direction.Left, this.cells);
+  }
+
+  moveRightHandler() {
+    this.gameService.slideTiles(Direction.Right, this.cells);
   }
 }

@@ -87,22 +87,30 @@ export default class BordPresenter {
   }
 
   async moveUpHandler() {
-    await this.gameService.slideTiles(Direction.Up, this.cells);
-    this.renderTile();
+    if (this.gameService.canMove(Direction.Up, this.cells)) {
+      await this.gameService.slideTiles(Direction.Up, this.cells);
+      this.renderTile();
+    }
   }
 
   async moveDownHandler() {
-    await this.gameService.slideTiles(Direction.Down, this.cells);
-    this.renderTile();
+    if (this.gameService.canMove(Direction.Down, this.cells)) {
+      await this.gameService.slideTiles(Direction.Down, this.cells);
+      this.renderTile();
+    }
   }
 
   async moveLeftHandler() {
-    await this.gameService.slideTiles(Direction.Left, this.cells);
-    this.renderTile();
+    if (this.gameService.canMove(Direction.Left, this.cells)) {
+      await this.gameService.slideTiles(Direction.Left, this.cells);
+      this.renderTile();
+    }
   }
 
   async moveRightHandler() {
-    await this.gameService.slideTiles(Direction.Right, this.cells);
-    this.renderTile();
+    if (this.gameService.canMove(Direction.Right, this.cells)) {
+      await this.gameService.slideTiles(Direction.Right, this.cells);
+      this.renderTile();
+    }
   }
 }

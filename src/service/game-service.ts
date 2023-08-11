@@ -109,4 +109,42 @@ export default class GameService {
       currentCell.unlinkTile();
     }
   }
+
+  canMove(direction: Direction, cells: Cell[]) {
+    let groupedCells: Cell[][] = [];
+
+    switch (direction) {
+      case Direction.Up:
+        groupedCells = this.groupCellsByColumn(cells);
+        break;
+      case Direction.Down:
+        groupedCells = this.groupCellsByColumnReverse(cells);
+        break;
+      case Direction.Left:
+        groupedCells = this.groupCellsByRow(cells);
+        break;
+      case Direction.Right:
+        groupedCells = this.groupCellsByRowReverse(cells);
+        break;
+    }
+
+    return groupedCells.some((groupCells) => this.canMoveInGroup(groupCells));
+  }
+
+  canMoveInGroup(cells: Cell[]) {
+    return cells.some((cell, index) => {
+      if (index === 0 || cell.isEmpty()) {
+        return false;
+      }
+
+      const newTile = cell.getTile();
+
+      if (!newTile) {
+        return false;
+      }
+
+      const targetCell = cells[index - 1];
+      return targetCell.canAccept(newTile);
+    });
+  }
 }

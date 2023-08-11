@@ -88,17 +88,21 @@ export default class BordPresenter {
 
   moveUpHandler() {
     this.gameService.slideTiles(Direction.Up, this.cells);
+    this.renderTile();
   }
 
   moveDownHandler() {
     this.gameService.slideTiles(Direction.Down, this.cells);
+    this.renderTile();
   }
 
   moveLeftHandler() {
     this.gameService.slideTiles(Direction.Left, this.cells);
+    this.renderTile();
   }
 
   moveRightHandler() {
     this.gameService.slideTiles(Direction.Right, this.cells);
+    this.renderTile();
   }
 }

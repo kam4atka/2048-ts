@@ -4,6 +4,7 @@ import GameService from '../service/game-service';
 import Board from '../components/board';
 import Cell from '../components/cell';
 import Tile from '../components/tile';
+import Popup from '../components/popup';
 import { getRandomValue } from '../utils/get-random-value';
 import { render } from '../utils/render';
 import { Direction, Keys } from '../const';
@@ -33,7 +34,7 @@ export default class BordPresenter {
   }
 
   init() {
-    this.renderBoard();
+    this.renderPopup();
   }
 
   bindLocalHandlers() {
@@ -79,6 +80,18 @@ export default class BordPresenter {
 
     const tileEl = tileComponent.get();
     render(tileEl, this.boardEl);
+  }
+
+  renderPopup() {
+    const popupComponent = new Popup('Сlick to start');
+    const popupEl = popupComponent.get();
+
+    popupComponent.setButtonHandler(() => {
+      this.renderBoard();
+      popupComponent.remove();
+    });
+
+    render(popupEl, this.rootEl);
   }
 
   getEmptyCell() {

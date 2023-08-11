@@ -46,7 +46,9 @@ export default class GameService {
     }, []);
   }
 
-  slideTiles(direction: Direction, cells: Cell[]) {
+  async slideTiles(direction: Direction, cells: Cell[]) {
+    const promises: Promise<unknown>[] = [];
+
     let groupedCells: Cell[][] = [];
 
     switch (direction) {
@@ -64,10 +66,14 @@ export default class GameService {
         break;
     }
 
-    groupedCells.forEach((groupCells) => this.slideTilesInGroup(groupCells));
+    groupedCells.forEach((groupCells) => this.slideTilesInGroup(groupCells, promises));
+
+    await Promise.all(promises);
+
+    cells.forEach((cell) => cell.hasTileForMerge() && cell.mergeTiles());
   }
 
-  slideTilesInGroup(cells: Cell[]) {
+  slideTilesInGroup(cells: Cell[], promises: Promise<unknown>[]) {
     for (let i = 1; i < cells.length; i++) {
       if (cells[i].isEmpty()) {
         continue;
@@ -92,13 +98,14 @@ export default class GameService {
         continue;
       }
 
+      promises.push(currentTile.waitForTransitionEnd());
+
       if (targetCell.isEmpty()) {
         targetCell.linkTile(currentTile);
       } else {
         targetCell.linkTileForMerge(currentTile);
       }
 
-      targetCell.mergeTiles();
       currentCell.unlinkTile();
     }
   }

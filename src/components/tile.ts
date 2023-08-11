@@ -49,6 +49,10 @@ export default class Tile implements ComponentInterface {
     this.componentElement.style.setProperty('--y', String(this.y));
   }
 
+  waitForTransitionEnd() {
+    return new Promise((resolve) => this.componentElement.addEventListener('transitionend', resolve, {once: true}));
+  }
+
   remove() {
     this.componentElement.remove();
   }

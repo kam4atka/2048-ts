@@ -4,10 +4,10 @@ import Cell from '../components/cell';
 export default class CellModel implements ModelInterface<Cell> {
   private count = 0;
 
-  private cells: Map<string, Cell>;
+  private cells: Cell[];
 
   constructor(count: number) {
-    this.cells = new Map();
+    this.cells = [];
     this.count = count;
 
     this.setCollection();
@@ -16,70 +16,56 @@ export default class CellModel implements ModelInterface<Cell> {
   setCollection() {
     for (let i = 0; i < this.count; i++) {
       for (let j = 0; j < this.count; j++) {
-        this.set(new Cell(j, i));
+        this.cells.push(new Cell(j, i));
       }
     }
   }
 
   getCollection() {
-    return Array.from(this.cells.values());
+    return [...this.cells];
   }
 
   groupCollectionByColumn() {
-    return Array.from(this.cells.values())
-      .reduce((groupedCells: Cell[][], cell: Cell) => {
-        const {x} = cell.getCoords();
+    return this.cells.reduce((groupedCells: Cell[][], cell: Cell) => {
+      const {x} = cell.getCoords();
 
-        groupedCells[x] = groupedCells[x] || [];
-        groupedCells[x].push(cell);
+      groupedCells[x] = groupedCells[x] || [];
+      groupedCells[x].push(cell);
 
-        return groupedCells;
-      }, []);
+      return groupedCells;
+    }, []);
   }
 
   groupCollectionByColumnReverse() {
-    return Array.from(this.cells.values())
-      .reduce((groupedCells: Cell[][], cell: Cell) => {
-        const {x} = cell.getCoords();
+    return this.cells.reduce((groupedCells: Cell[][], cell: Cell) => {
+      const {x} = cell.getCoords();
 
-        groupedCells[x] = groupedCells[x] || [];
-        groupedCells[x].unshift(cell);
+      groupedCells[x] = groupedCells[x] || [];
+      groupedCells[x].unshift(cell);
 
-        return groupedCells;
-      }, []);
+      return groupedCells;
+    }, []);
   }
 
   groupCollectionByRow() {
-    return Array.from(this.cells.values())
-      .reduce((groupedCells: Cell[][], cell: Cell) => {
-        const {y} = cell.getCoords();
+    return this.cells.reduce((groupedCells: Cell[][], cell: Cell) => {
+      const {y} = cell.getCoords();
 
-        groupedCells[y] = groupedCells[y] || [];
-        groupedCells[y].push(cell);
+      groupedCells[y] = groupedCells[y] || [];
+      groupedCells[y].push(cell);
 
-        return groupedCells;
-      }, []);
+      return groupedCells;
+    }, []);
   }
 
   groupCollectionByRowReverse() {
-    return Array.from(this.cells.values())
-      .reduce((groupedCells: Cell[][], cell: Cell) => {
-        const {y} = cell.getCoords();
+    return this.cells.reduce((groupedCells: Cell[][], cell: Cell) => {
+      const {y} = cell.getCoords();
 
-        groupedCells[y] = groupedCells[y] || [];
-        groupedCells[y].unshift(cell);
+      groupedCells[y] = groupedCells[y] || [];
+      groupedCells[y].unshift(cell);
 
-        return groupedCells;
-      }, []);
-  }
-
-  set(cell: Cell) {
-    this.cells.set(`${cell.getCoordsByString()}`, cell);
-  }
-
-  get(x: number, y: number) {
-    const cell = this.cells.get(`${x}${y}`);
-
-    return (cell) ? cell : null;
+      return groupedCells;
+    }, []);
   }
 }

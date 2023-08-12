@@ -1,76 +1,16 @@
 import Cell from '../components/cell';
-import { Direction } from '../const';
 
 export default class GameService {
-  groupCellsByColumn(cells: Cell[]) {
-    return cells.reduce((groupedCells: Cell[][], cell: Cell) => {
-      const {x} = cell.getCoords();
-
-      groupedCells[x] = groupedCells[x] || [];
-      groupedCells[x].push(cell);
-
-      return groupedCells;
-    }, []);
-  }
-
-  groupCellsByColumnReverse(cells: Cell[]) {
-    return cells.reduce((groupedCells: Cell[][], cell: Cell) => {
-      const {x} = cell.getCoords();
-
-      groupedCells[x] = groupedCells[x] || [];
-      groupedCells[x].unshift(cell);
-
-      return groupedCells;
-    }, []);
-  }
-
-  groupCellsByRow(cells: Cell[]) {
-    return cells.reduce((groupedCells: Cell[][], cell: Cell) => {
-      const {y} = cell.getCoords();
-
-      groupedCells[y] = groupedCells[y] || [];
-      groupedCells[y].push(cell);
-
-      return groupedCells;
-    }, []);
-  }
-
-  groupCellsByRowReverse(cells: Cell[]) {
-    return cells.reduce((groupedCells: Cell[][], cell: Cell) => {
-      const {y} = cell.getCoords();
-
-      groupedCells[y] = groupedCells[y] || [];
-      groupedCells[y].unshift(cell);
-
-      return groupedCells;
-    }, []);
-  }
-
-  async slideTiles(direction: Direction, cells: Cell[]) {
+  async slideTiles(groupedCells: Cell[][]) {
     const promises: Promise<unknown>[] = [];
-
-    let groupedCells: Cell[][] = [];
-
-    switch (direction) {
-      case Direction.Up:
-        groupedCells = this.groupCellsByColumn(cells);
-        break;
-      case Direction.Down:
-        groupedCells = this.groupCellsByColumnReverse(cells);
-        break;
-      case Direction.Left:
-        groupedCells = this.groupCellsByRow(cells);
-        break;
-      case Direction.Right:
-        groupedCells = this.groupCellsByRowReverse(cells);
-        break;
-    }
 
     groupedCells.forEach((groupCells) => this.slideTilesInGroup(groupCells, promises));
 
     await Promise.all(promises);
 
-    cells.forEach((cell) => cell.hasTileForMerge() && cell.mergeTiles());
+    groupedCells
+      .flat()
+      .forEach((cell) => cell.hasTileForMerge() && cell.mergeTiles());
   }
 
   slideTilesInGroup(cells: Cell[], promises: Promise<unknown>[]) {
@@ -110,25 +50,8 @@ export default class GameService {
     }
   }
 
-  canMove(direction: Direction, cells: Cell[]) {
-    let groupedCells: Cell[][] = [];
-
-    switch (direction) {
-      case Direction.Up:
-        groupedCells = this.groupCellsByColumn(cells);
-        break;
-      case Direction.Down:
-        groupedCells = this.groupCellsByColumnReverse(cells);
-        break;
-      case Direction.Left:
-        groupedCells = this.groupCellsByRow(cells);
-        break;
-      case Direction.Right:
-        groupedCells = this.groupCellsByRowReverse(cells);
-        break;
-    }
-
-    return groupedCells.some((groupCells) => this.canMoveInGroup(groupCells));
+  canMove(groupedCells: Cell[][]) {
+    return groupedCells.some((group) => this.canMoveInGroup(group));
   }
 
   canMoveInGroup(cells: Cell[]) {

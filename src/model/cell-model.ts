@@ -25,6 +25,54 @@ export default class CellModel implements ModelInterface<Cell> {
     return Array.from(this.cells.values());
   }
 
+  groupCollectionByColumn() {
+    return Array.from(this.cells.values())
+      .reduce((groupedCells: Cell[][], cell: Cell) => {
+        const {x} = cell.getCoords();
+
+        groupedCells[x] = groupedCells[x] || [];
+        groupedCells[x].push(cell);
+
+        return groupedCells;
+      }, []);
+  }
+
+  groupCollectionByColumnReverse() {
+    return Array.from(this.cells.values())
+      .reduce((groupedCells: Cell[][], cell: Cell) => {
+        const {x} = cell.getCoords();
+
+        groupedCells[x] = groupedCells[x] || [];
+        groupedCells[x].unshift(cell);
+
+        return groupedCells;
+      }, []);
+  }
+
+  groupCollectionByRow() {
+    return Array.from(this.cells.values())
+      .reduce((groupedCells: Cell[][], cell: Cell) => {
+        const {y} = cell.getCoords();
+
+        groupedCells[y] = groupedCells[y] || [];
+        groupedCells[y].push(cell);
+
+        return groupedCells;
+      }, []);
+  }
+
+  groupCollectionByRowReverse() {
+    return Array.from(this.cells.values())
+      .reduce((groupedCells: Cell[][], cell: Cell) => {
+        const {y} = cell.getCoords();
+
+        groupedCells[y] = groupedCells[y] || [];
+        groupedCells[y].unshift(cell);
+
+        return groupedCells;
+      }, []);
+  }
+
   set(cell: Cell) {
     this.cells.set(`${cell.getCoordsByString()}`, cell);
   }

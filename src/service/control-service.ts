@@ -1,6 +1,8 @@
 import { Keys } from '../const';
 
 export default class ControllService {
+  private beforeEach: (() => void) | null = null;
+
   private handlers: {[key: string]: () => Promise<unknown>} = {};
 
   constructor() {
@@ -17,6 +19,10 @@ export default class ControllService {
     document.addEventListener('keydown', this.keyDownHandler, {once: true});
   }
 
+  setBeforeEach(cb: () => void) {
+    this.beforeEach = cb;
+  }
+
   setHandlers(controllMap: {[key: string] : () => Promise<unknown>}) {
     Object.entries(controllMap)
       .forEach((controll) => {
@@ -30,6 +36,10 @@ export default class ControllService {
   }
 
   async keyDownHandler(event: KeyboardEvent) {
+    if (this.beforeEach) {
+      this.beforeEach();
+    }
+
     switch (event.key) {
       case Keys.Up:
         await this.handlers[Keys.Up]();

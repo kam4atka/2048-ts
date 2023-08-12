@@ -52,6 +52,14 @@ export default class BoardPresenter {
     this.renderTile();
   }
 
+  clearBoard() {
+    this.cellModel.getCollection().forEach((cell) => {
+      cell.getTile()?.remove();
+      cell.unlinkTile();
+      cell.unlinkTileForMerge();
+    });
+  }
+
   renderCell(cell: Cell) {
     const cellElement = cell.get();
     render(cellElement, this.boardEl);
@@ -76,7 +84,7 @@ export default class BoardPresenter {
     const popupEl = popupComponent.get();
 
     popupComponent.setButtonHandler(() => {
-      this.cellModel.setCollection();
+      this.clearBoard();
       this.renderBoard();
       popupComponent.remove();
     });

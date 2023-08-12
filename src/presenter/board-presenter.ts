@@ -7,7 +7,7 @@ import Tile from '../components/tile';
 import Popup from '../components/popup';
 import { getRandomValue } from '../utils/get-random-value';
 import { render } from '../utils/render';
-import { Keys } from '../const';
+import { Keys, Message } from '../const';
 
 export default class BoardPresenter {
   private rootEl!: HTMLElement;
@@ -35,7 +35,7 @@ export default class BoardPresenter {
   }
 
   init() {
-    this.renderPopup();
+    this.renderPopup(Message.Start);
   }
 
   bindLocalHandlers() {
@@ -71,11 +71,12 @@ export default class BoardPresenter {
     render(tileEl, this.boardEl);
   }
 
-  renderPopup() {
-    const popupComponent = new Popup('Сlick to start');
+  renderPopup(message: Message) {
+    const popupComponent = new Popup(message);
     const popupEl = popupComponent.get();
 
     popupComponent.setButtonHandler(() => {
+      this.cellModel.setCollection();
       this.renderBoard();
       popupComponent.remove();
     });
@@ -98,7 +99,7 @@ export default class BoardPresenter {
 
     if (!canMoveUp && !canMoveDown && !canMoveLeft && !canMoveRight) {
       this.controllService.clearHandlers();
-      this.renderPopup();
+      this.renderPopup(Message.Finish);
     }
   }
 

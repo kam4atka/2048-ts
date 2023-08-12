@@ -100,12 +100,12 @@ export default class BoardPresenter {
   }
 
   checkPossibilityMove() {
-    const canMoveUp = this.gameService.canMove(this.cellModel.groupCollectionByColumn());
-    const canMoveDown = this.gameService.canMove(this.cellModel.groupCollectionByColumnReverse());
-    const canMoveLeft = this.gameService.canMove(this.cellModel.groupCollectionByRow());
-    const canMoveRight = this.gameService.canMove(this.cellModel.groupCollectionByRowReverse());
-
-    if (!canMoveUp && !canMoveDown && !canMoveLeft && !canMoveRight) {
+    if (
+      !this.gameService.canMove(this.cellModel.groupCollectionByColumn()) &&
+      !this.gameService.canMove(this.cellModel.groupCollectionByColumnReverse()) &&
+      !this.gameService.canMove(this.cellModel.groupCollectionByRow()) &&
+      !this.gameService.canMove(this.cellModel.groupCollectionByRowReverse())
+    ) {
       this.controllService.clearHandlers();
       this.renderPopup(Message.Finish);
     }

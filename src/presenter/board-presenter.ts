@@ -9,7 +9,7 @@ import { getRandomValue } from '../utils/get-random-value';
 import { render } from '../utils/render';
 import { Keys } from '../const';
 
-export default class BordPresenter {
+export default class BoardPresenter {
   private rootEl!: HTMLElement;
   private boardEl!: HTMLElement;
 
@@ -22,34 +22,16 @@ export default class BordPresenter {
     if (!rootEl) {
       throw new Error('Failed to get root DOM element');
     }
-    this.bindLocalHandlers();
-    this.setOuterHandlers();
 
     this.rootEl = rootEl;
 
     this.boardEl = new Board().getElement();
+
+    this.controllService.setHandlers(this.createControllMap());
   }
 
   init() {
     this.renderPopup();
-  }
-
-  bindLocalHandlers() {
-    this.moveUpHandler = this.moveUpHandler.bind(this);
-    this.moveDownHandler = this.moveDownHandler.bind(this);
-    this.moveLeftHandler = this.moveLeftHandler.bind(this);
-    this.moveRightHandler = this.moveRightHandler.bind(this);
-  }
-
-  setOuterHandlers() {
-    // eslint-disable-next-line
-    this.controllService.setHandler(Keys.Up, this.moveUpHandler);
-    // eslint-disable-next-line
-    this.controllService.setHandler(Keys.Down, this.moveDownHandler);
-    // eslint-disable-next-line
-    this.controllService.setHandler(Keys.Left, this.moveLeftHandler);
-    // eslint-disable-next-line
-    this.controllService.setHandler(Keys.Right, this.moveRightHandler);
   }
 
   renderBoard() {
@@ -98,39 +80,48 @@ export default class BordPresenter {
     return getRandomValue(emptyCells);
   }
 
-  async moveUpHandler() {
-    const groupedCells = this.cellModel.groupCollectionByColumn();
+  createControllMap() {
+    const moveUp = async () => {
+      const groupedCells = this.cellModel.groupCollectionByColumn();
 
-    if (this.gameService.canMove(groupedCells)) {
-      await this.gameService.slideTiles(groupedCells);
-      this.renderTile();
-    }
-  }
+      if (this.gameService.canMove(groupedCells)) {
+        await this.gameService.slideTiles(groupedCells);
+        this.renderTile();
+      }
+    };
 
-  async moveDownHandler() {
-    const groupedCells = this.cellModel.groupCollectionByColumnReverse();
+    const moveDown = async () => {
+      const groupedCells = this.cellModel.groupCollectionByColumnReverse();
 
-    if (this.gameService.canMove(groupedCells)) {
-      await this.gameService.slideTiles(groupedCells);
-      this.renderTile();
-    }
-  }
+      if (this.gameService.canMove(groupedCells)) {
+        await this.gameService.slideTiles(groupedCells);
+        this.renderTile();
+      }
+    };
 
-  async moveLeftHandler() {
-    const groupedCells = this.cellModel.groupCollectionByRow();
+    const moveLeft = async () => {
+      const groupedCells = this.cellModel.groupCollectionByRow();
 
-    if (this.gameService.canMove(groupedCells)) {
-      await this.gameService.slideTiles(groupedCells);
-      this.renderTile();
-    }
-  }
+      if (this.gameService.canMove(groupedCells)) {
+        await this.gameService.slideTiles(groupedCells);
+        this.renderTile();
+      }
+    };
 
-  async moveRightHandler() {
-    const groupedCells = this.cellModel.groupCollectionByRowReverse();
+    const moveRight = async () => {
+      const groupedCells = this.cellModel.groupCollectionByRowReverse();
 
-    if (this.gameService.canMove(groupedCells)) {
-      await this.gameService.slideTiles(groupedCells);
-      this.renderTile();
-    }
+      if (this.gameService.canMove(groupedCells)) {
+        await this.gameService.slideTiles(groupedCells);
+        this.renderTile();
+      }
+    };
+
+    return {
+      [Keys.Up]: moveUp,
+      [Keys.Down]: moveDown,
+      [Keys.Left]: moveLeft,
+      [Keys.Right]: moveRight
+    };
   }
 }

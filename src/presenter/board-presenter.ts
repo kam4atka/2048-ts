@@ -30,7 +30,7 @@ export default class BoardPresenter {
     this.bindLocalHandlers();
 
     // eslint-disable-next-line
-    this.controllService.setBeforeEach(this.checkPossibilityMove);
+    this.controllService.setAfterEach(this.checkPossibilityMove);
     this.controllService.setHandlers(this.createControllMap());
   }
 
@@ -43,6 +43,8 @@ export default class BoardPresenter {
   }
 
   renderBoard() {
+    this.controllService.init();
+
     render(this.boardEl, this.rootEl);
 
     this.cellModel.getCollection().forEach((cell) => this.renderCell(cell));
@@ -95,6 +97,7 @@ export default class BoardPresenter {
     const canMoveRight = this.gameService.canMove(this.cellModel.groupCollectionByRowReverse());
 
     if (!canMoveUp && !canMoveDown && !canMoveLeft && !canMoveRight) {
+      this.controllService.clearHandlers();
       this.renderPopup();
     }
   }

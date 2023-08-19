@@ -12,7 +12,7 @@
   "author": "kam4atka",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack serve --open --config webpack.dev.js",
+    "start": "webpack serve --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "lint": "eslint ./src --ext .ts"
   },

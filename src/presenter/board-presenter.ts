@@ -27,19 +27,12 @@ export default class BoardPresenter {
 
     this.boardEl = new Board().getElement();
 
-    this.bindLocalHandlers();
-
-    // eslint-disable-next-line
     this.controllService.setAfterEach(this.checkPossibilityMove);
     this.controllService.setHandlers(this.createControllMap());
   }
 
   init() {
     this.renderPopup(Message.Start);
-  }
-
-  bindLocalHandlers() {
-    this.checkPossibilityMove = this.checkPossibilityMove.bind(this);
   }
 
   renderBoard() {
@@ -99,7 +92,7 @@ export default class BoardPresenter {
     return getRandomValue(emptyCells);
   }
 
-  checkPossibilityMove() {
+  checkPossibilityMove = () => {
     if (
       !this.gameService.canMove(this.cellModel.groupCollectionByColumn()) &&
       !this.gameService.canMove(this.cellModel.groupCollectionByColumnReverse()) &&
@@ -109,7 +102,7 @@ export default class BoardPresenter {
       this.controllService.clearHandlers();
       this.renderPopup(Message.Finish);
     }
-  }
+  };
 
   createControllMap() {
     const moveUp = async () => {

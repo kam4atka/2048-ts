@@ -5,20 +5,11 @@ export default class ControllService {
 
   private handlers: {[key: string]: () => Promise<unknown>} = {};
 
-  constructor() {
-    this.bindHandlers();
-  }
-
-  bindHandlers() {
-    this.keyDownHandler = this.keyDownHandler.bind(this);
-  }
-
   init() {
     this.setupKeydownOnce();
   }
 
   setupKeydownOnce() {
-    // eslint-disable-next-line
     document.addEventListener('keydown', this.keyDownHandler, {once: true});
   }
 
@@ -39,11 +30,10 @@ export default class ControllService {
   }
 
   clearHandlers() {
-    // eslint-disable-next-line
     document.removeEventListener('keydown', this.keyDownHandler);
   }
 
-  async keyDownHandler(event: KeyboardEvent) {
+  keyDownHandler = async (event: KeyboardEvent) => {
     switch (event.key) {
       case Keys.Up:
         await this.handlers[Keys.Up]();
@@ -69,5 +59,5 @@ export default class ControllService {
     if (this.afterEach) {
       this.afterEach();
     }
-  }
+  };
 }

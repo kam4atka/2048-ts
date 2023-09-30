@@ -49,6 +49,7 @@ export default class Cell implements ComponentInterface {
 
     const newValue = this.tile?.getValue() + this.tileForMerge.getValue();
     this.tile.setValue(newValue);
+    this.tile.setColor();
     this.tileForMerge.remove();
     this.unlinkTileForMerge();
   }

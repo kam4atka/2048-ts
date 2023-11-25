@@ -1,7 +1,7 @@
-import Cell from '../components/cell';
+import CellPresenter from '../presenter/cell-presenter';
 
 export default class GameService {
-  async slideTiles(groupedCells: Cell[][]) {
+  async slideTiles(groupedCells: CellPresenter[][]) {
     const promises: Promise<unknown>[] = [];
 
     groupedCells.forEach((groupCells) => this.slideTilesInGroup(groupCells, promises));
@@ -13,7 +13,7 @@ export default class GameService {
       .forEach((cell) => cell.hasTileForMerge() && cell.mergeTiles());
   }
 
-  slideTilesInGroup(cells: Cell[], promises: Promise<unknown>[]) {
+  slideTilesInGroup(cells: CellPresenter[], promises: Promise<unknown>[]) {
     for (let i = 1; i < cells.length; i++) {
       if (cells[i].isEmpty()) {
         continue;
@@ -26,7 +26,7 @@ export default class GameService {
         continue;
       }
 
-      let targetCell: Cell | null = null;
+      let targetCell: CellPresenter | null = null;
       let j = i - 1;
 
       while(j >= 0 && cells[j].canAccept(currentTile)) {
@@ -50,11 +50,11 @@ export default class GameService {
     }
   }
 
-  canMove(groupedCells: Cell[][]) {
+  canMove(groupedCells: CellPresenter[][]) {
     return groupedCells.some((group) => this.canMoveInGroup(group));
   }
 
-  canMoveInGroup(cells: Cell[]) {
+  canMoveInGroup(cells: (CellPresenter)[]) {
     return cells.some((cell, index) => {
       if (index === 0 || cell.isEmpty()) {
         return false;

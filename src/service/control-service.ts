@@ -1,5 +1,5 @@
 import { Keys } from '../const';
-import { wrapAsyncFunction } from '../utils/wrap-async-function';
+// import { wrapAsyncFunction } from '../utils/wrap-async-function';
 
 export default class ControllService {
   private afterEach: (() => void) | null = null;
@@ -11,7 +11,8 @@ export default class ControllService {
   }
 
   setupKeydownOnce() {
-    document.addEventListener('keydown', wrapAsyncFunction(this.keyDownHandler), {once: true});
+    // eslint-disable-next-line
+    document.addEventListener('keydown', this.keyDownHandler, {once: true});
   }
 
   setAfterEach(cb: () => void) {
@@ -31,7 +32,8 @@ export default class ControllService {
   }
 
   clearHandlers() {
-    document.removeEventListener('keydown', wrapAsyncFunction(this.keyDownHandler));
+    // eslint-disable-next-line
+    document.removeEventListener('keydown', this.keyDownHandler);
   }
 
   keyDownHandler = async (event: KeyboardEvent) => {

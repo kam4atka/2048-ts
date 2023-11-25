@@ -10,5 +10,7 @@ export enum Message {
   Finish = 'Click to try again'
 }
 
+export enum Coord {X, Y}
+
 export const BOARD_SIZE = 4;
 

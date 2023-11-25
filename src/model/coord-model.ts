@@ -1,9 +1,6 @@
 import { ModelInterface } from '../interface/model.interface';
-
-type Coords = [number, number];
-
-enum Coord {X, Y}
-
+import { Coords } from '../types/coord';
+import { Coord } from '../const';
 export default class CoordModel implements ModelInterface<Coords> {
   private count = 0;
 

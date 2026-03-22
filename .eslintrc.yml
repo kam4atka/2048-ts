@@ -1,7 +1,7 @@
 extends:
   - 'htmlacademy/vanilla'
   - 'plugin:@typescript-eslint/recommended'
-  - 'plugin:@typescript-eslint/recommended-requiring-type-checking'
+  - 'plugin:@typescript-eslint/recommended-type-checked'
 
 env:
   es2022: true
@@ -18,3 +18,4 @@ overrides:
 rules:
   'no-shadow': 'off'
   '@typescript-eslint/no-shadow': 'error'
+  '@typescript-eslint/no-unsafe-enum-comparison': 'off'
